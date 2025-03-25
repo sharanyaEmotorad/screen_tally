@@ -16,4 +16,4 @@ A Flutter plugin to track app usage time across Android and iOS.
 dependencies:
   screen_usage_tally:
     git:
-      url: https://github.com/YOUR_GITHUB_USERNAME/screen_usage_tally.git
+      url: https://github.com/sharanyaEmotorad/screen_tally.git
