@@ -1,25 +1,23 @@
-// This is a basic Flutter integration test.
-//
-// Since integration tests run in a full Flutter application, they can interact
-// with the host side of a plugin implementation, unlike Dart unit tests.
-//
-// For more information about Flutter integration tests, please see
-// https://docs.flutter.dev/cookbook/testing/integration/introduction
-
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
 import 'package:screen_usage_tally/screen_usage_tally.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('getPlatformVersion test', (WidgetTester tester) async {
-    final ScreenUsageTally plugin = ScreenUsageTally();
-    final String? version = await plugin.getPlatformVersion();
-    // The version string depends on the host platform running the test, so
-    // just assert that some non-empty string is returned.
-    expect(version?.isNotEmpty, true);
+  testWidgets('ScreenUsageTally tracks time correctly', (WidgetTester tester) async {
+    final ScreenUsageTally screenUsageTally = ScreenUsageTally();
+    // Start tracking
+    screenUsageTally.startTracking();
+    await Future.delayed(Duration(seconds: 3)); // Simulate 3 sec app usage
+
+    // Stop tracking and get usage time
+    screenUsageTally.stopTracking();
+    int usageTime = await screenUsageTally.getUsageTime();
+
+    print('Tracked Usage Time: $usageTime seconds');
+
+    // Assert that time is greater than or equal to 3 seconds
+    expect(usageTime, greaterThanOrEqualTo(3.0));
   });
 }
